@@ -6,6 +6,7 @@ from django.utils.encoding import force_text
 from django.utils.translation import gettext_lazy as _
 from rest_framework import exceptions
 from rest_framework.reverse import reverse
+from rest_framework import serializers
 from rest_framework.views import exception_handler as drf_exception_handler
 
 from drf_problems.utils import register
@@ -27,6 +28,8 @@ def exception_handler(exc, context):
     request = context['request']
     response = drf_exception_handler(exc, context)
     data = response.data
+    if isinstance(exc, serializers.ValidationError):
+        data = {'invalid-params': response.data}
 
     problem_title = getattr(exc, 'title', exc.default_detail)
     problem_status = response.status_code

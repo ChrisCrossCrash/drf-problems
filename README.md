@@ -1,4 +1,41 @@
-# DRF Problems [![PyPI version](https://badge.fury.io/py/drf-problems.svg)](https://badge.fury.io/py/drf-problems) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/815f1503809749c3a6b61d129dbb1c1a)](https://www.codacy.com/manual/shivanshs9/drf-problems?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=shivanshs9/drf-problems&amp;utm_campaign=Badge_Grade) [![Downloads](https://pepy.tech/badge/drf-problems)](https://pepy.tech/project/drf-problems) [![HitCount](https://hits.dwyl.com/shivanshs9/drf-problems.svg)](http://hits.dwyl.com/shivanshs9/drf-problems)
+# DRF Problems (with `invalid-params`) [![PyPI version](https://badge.fury.io/py/drf-problems.svg)](https://badge.fury.io/py/drf-problems) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/815f1503809749c3a6b61d129dbb1c1a)](https://www.codacy.com/manual/shivanshs9/drf-problems?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=shivanshs9/drf-problems&amp;utm_campaign=Badge_Grade) [![Downloads](https://pepy.tech/badge/drf-problems)](https://pepy.tech/project/drf-problems) [![HitCount](https://hits.dwyl.com/shivanshs9/drf-problems.svg)](http://hits.dwyl.com/shivanshs9/drf-problems)
+
+This is a fork of shivanshs9's excellent [DRF Problems](https://github.com/shivanshs9/drf-problems) library with one minor change. In the case of a `serializer.ValidationError`, this version puts the invalid request parameters in an [extension member](https://tools.ietf.org/html/rfc7807#section-3.2) with the key `invalid-params`.
+
+For example, instead of this:
+```json
+{
+    "lname": [
+        "This field is required."
+    ],
+    "email": [
+        "This field is required."
+    ],
+    "title": "Invalid input.",
+    "status": 400,
+    "type": "http://localhost:8000/problems/invalid/"
+}
+```
+
+you'll get this:
+
+```json
+{
+    "invalid-params": {
+        "lname": [
+            "This field is required."
+        ],
+        "email": [
+            "This field is required."
+        ]
+    },
+    "title": "Invalid input.",
+    "status": 400,
+    "type": "http://localhost:8000/problems/invalid/"
+}
+```
+
+The original README follows...
 
 ## TL;DR
 
